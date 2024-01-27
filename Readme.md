@@ -1,0 +1,1 @@
+A simple CLI argument parser library intended for use with various of my projects
