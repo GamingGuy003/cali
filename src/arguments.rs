@@ -1,7 +1,7 @@
 pub mod arguments {
     use std::fmt::Display;
 
-    #[derive(Clone, Default)]
+    #[derive(Clone, Default, Debug)]
     pub struct ParsedArgument {
         pub defined_argument: Option<RawArgument>,
         pub value: Option<String>,
@@ -28,7 +28,7 @@ pub mod arguments {
         }
     }
 
-    #[derive(Clone, Default)]
+    #[derive(Clone, Default, Debug)]
     pub struct RawArgument {
         short: String,
         long: String,

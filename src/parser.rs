@@ -4,6 +4,7 @@ use log::trace;
 
 use crate::arguments::arguments::{ParsedArgument, RawArgument};
 
+
 pub struct Parser {
     _defined_arguments: Vec<RawArgument>,
     _parsed_arguments: Vec<ParsedArgument>,
@@ -146,6 +147,7 @@ impl Parser {
 
     /// Returns either false, if argument has not been found, or true with the optional value of the argument
     pub fn get_parsed_argument_long(&self, long: &str) -> (bool, Option<String>) {
+        trace!("Trying to fetch long arg; Parsed: {:#?}", self._parsed_arguments);
         let parsed_argument = self._parsed_arguments.iter().find(|parsed_argument| {
             parsed_argument
                 .defined_argument
