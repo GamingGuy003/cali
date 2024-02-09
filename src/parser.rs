@@ -71,6 +71,7 @@ impl Parser {
             // if there is another argument, it will be used as value
             if let Some(next_value) = system_arguments.get(idx) {
                 current_parsed_argument.value = Some(next_value.clone());
+                idx += 1;
             } else {
                 return Err(ParserError::new(&format!(
                     "Did not provide a value for {current_system_argument}"
