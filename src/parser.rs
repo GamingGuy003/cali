@@ -2,9 +2,9 @@ use crate::error::ParserError;
 
 use log::trace;
 
-use crate::arguments::arguments::{ParsedArgument, RawArgument};
+use crate::arguments::{ParsedArgument, RawArgument};
 
-
+#[derive(Default)]
 pub struct Parser {
     _defined_arguments: Vec<RawArgument>,
     _parsed_arguments: Vec<ParsedArgument>,
@@ -65,14 +65,20 @@ impl Parser {
             idx += 1;
             // if no other steps are necessary add to parsed and start with next argument
             if !current_parsed_argument.has_value() {
-                trace!("Pushing without value {:#?}", current_parsed_argument.defined_argument);
+                trace!(
+                    "Pushing without value {:#?}",
+                    current_parsed_argument.defined_argument
+                );
                 self._parsed_arguments.push(current_parsed_argument);
                 continue;
             }
 
             // if there is another argument, it will be used as value
             if let Some(next_value) = system_arguments.get(idx) {
-                trace!("Pushing with value {:#?}", current_parsed_argument.defined_argument);
+                trace!(
+                    "Pushing with value {:#?}",
+                    current_parsed_argument.defined_argument
+                );
                 current_parsed_argument.value = Some(next_value.clone());
                 self._parsed_arguments.push(current_parsed_argument);
                 idx += 1;
@@ -90,29 +96,29 @@ impl Parser {
             s if s.starts_with("--") => match self.find_predefined_by_long(s) {
                 Some(found) => {
                     trace!("Found long arg {s}");
-                    return Ok(ParsedArgument::new(Some(found), None));
+                    Ok(ParsedArgument::new(Some(found), None))
                 }
                 None => {
-                    return Err(ParserError::new(&format!(
+                    Err(ParserError::new(&format!(
                         "{} is not a valid Argument!",
                         string
                     )))
                 }
             },
-            s if s.starts_with("-") => match self.find_predefined_by_short(s) {
+            s if s.starts_with('-') => match self.find_predefined_by_short(s) {
                 Some(found) => {
                     trace!("Found short arg {s}");
-                    return Ok(ParsedArgument::new(Some(found), None));
+                    Ok(ParsedArgument::new(Some(found), None))
                 }
                 None => {
-                    return Err(ParserError::new(&format!(
+                    Err(ParserError::new(&format!(
                         "{} is not a valid Argument!",
                         string
                     )))
                 }
             },
             _ => {
-                return Err(ParserError::new(&format!(
+                Err(ParserError::new(&format!(
                     "{} is not a valid Argument!",
                     string
                 )))
@@ -150,7 +156,10 @@ impl Parser {
 
     /// Returns either false, if argument has not been found, or true with the optional value of the argument
     pub fn get_parsed_argument_long(&self, long: &str) -> (bool, Option<String>) {
-        trace!("Trying to fetch long arg; Parsed: {:#?}", self._parsed_arguments);
+        trace!(
+            "Trying to fetch long arg; Parsed: {:#?}",
+            self._parsed_arguments
+        );
         let parsed_argument = self._parsed_arguments.iter().find(|parsed_argument| {
             parsed_argument
                 .defined_argument
