@@ -1,39 +1,34 @@
-
 pub mod arguments {
     use std::fmt::Display;
-    
-    #[derive(Clone)]
+
+    #[derive(Clone, Default)]
     pub struct ParsedArgument {
-        _defined_argument: Option<RawArgument>,
+        pub defined_argument: Option<RawArgument>,
         pub value: Option<String>,
     }
-    
+
     impl ParsedArgument {
-        pub fn new(_defined_argument: Option<RawArgument>, value: Option<String>) -> Self {
+        pub fn new(defined_argument: Option<RawArgument>, value: Option<String>) -> Self {
             Self {
-                _defined_argument,
+                defined_argument,
                 value,
             }
         }
-    
-        pub fn set_defined(&mut self, raw_argument: RawArgument) {
-            self._defined_argument = Some(raw_argument);
-        }
-    
+
         pub fn has_value(&self) -> bool {
-            match &self._defined_argument {
+            match &self.defined_argument {
                 Some(arg) => arg.has_value,
                 None => false,
             }
         }
 
         pub fn clear(&mut self) {
-            self._defined_argument = None;
+            self.defined_argument = None;
             self.value = None;
         }
     }
 
-    #[derive(Clone)]
+    #[derive(Clone, Default)]
     pub struct RawArgument {
         short: String,
         long: String,
@@ -86,4 +81,3 @@ pub mod arguments {
         }
     }
 }
-
