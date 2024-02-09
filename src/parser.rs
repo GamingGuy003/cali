@@ -65,12 +65,14 @@ impl Parser {
             idx += 1;
             // if no other steps are necessary add to parsed and start with next argument
             if !current_parsed_argument.has_value() {
+                trace!("Pushing {:#?}", current_parsed_argument.defined_argument);
                 self._parsed_arguments.push(current_parsed_argument);
                 continue;
             }
 
             // if there is another argument, it will be used as value
             if let Some(next_value) = system_arguments.get(idx) {
+                trace!("Pushing {:#?}", current_parsed_argument.defined_argument);
                 current_parsed_argument.value = Some(next_value.clone());
                 idx += 1;
             } else {
