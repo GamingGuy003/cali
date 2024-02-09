@@ -62,31 +62,32 @@ impl Parser {
                 continue;
             }
 
-            // long
-            if raw_argument.starts_with("--") {
-                match self.find_by_long(&raw_argument) {
-                    Some(found) => {
-                        trace!("Found long arg {raw_argument}");
-                        current_arg.set_defined(found)
-                    },
-                    None => {
-                        debug!("Undefined long argument {raw_argument}");
-                        continue;
+            match &raw_argument {
+                s if s.starts_with("--") => {
+                    match self.find_by_long(&raw_argument) {
+                        Some(found) => {
+                            trace!("Found long arg {raw_argument}");
+                            current_arg.set_defined(found)
+                        },
+                        None => {
+                            debug!("Undefined long argument {raw_argument}");
+                            continue;
+                        }
                     }
-                }
-            }
-            // short
-            if raw_argument.starts_with("-") {
-                match self.find_by_short(&raw_argument) {
-                    Some(found) => {
-                        trace!("Found short arg {raw_argument}");
-                        current_arg.set_defined(found)
-                    },
-                    None => {
-                        debug!("Undefined short argument {raw_argument}");
-                        continue;
+                },
+                s if s.starts_with("-") => {
+                    match self.find_by_short(&raw_argument) {
+                        Some(found) => {
+                            trace!("Found short arg {raw_argument}");
+                            current_arg.set_defined(found)
+                        },
+                        None => {
+                            debug!("Undefined short argument {raw_argument}");
+                            continue;
+                        }
                     }
-                }
+                },
+                _ => {}
             }
 
             // if current arg needs a value but still doesnt have one presume next string is value
