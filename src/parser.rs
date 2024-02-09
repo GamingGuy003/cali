@@ -1,4 +1,4 @@
-use log::{trace, warn};
+use log::{trace, debug};
 
 use crate::arguments::arguments::{ParsedArgument, RawArgument};
 
@@ -51,21 +51,26 @@ impl Parser {
     pub fn parse(&mut self) {
         let mut current_arg = ParsedArgument::new(None, None);
         let mut searching_value = false;
+
         for raw_argument in std::env::args() {
+            // If searching for value, take current string and add as value, push to parsed args and clear current arg
             if searching_value {
                 current_arg.value = Some(raw_argument);
+                self._parsed_arguments.push(current_arg.clone());
+                current_arg.clear();
                 searching_value = false;
                 continue;
             }
+
             // long
             if raw_argument.starts_with("--") {
                 match self.find_by_long(&raw_argument) {
                     Some(found) => {
-                        trace!("Found long arg {found}");
+                        trace!("Found long arg {raw_argument}");
                         current_arg.set_defined(found)
                     },
                     None => {
-                        warn!("Undefined argument {raw_argument}");
+                        debug!("Undefined long argument {raw_argument}");
                         continue;
                     }
                 }
@@ -74,16 +79,17 @@ impl Parser {
             if raw_argument.starts_with("-") {
                 match self.find_by_short(&raw_argument) {
                     Some(found) => {
-                        trace!("Found long arg {found}");
+                        trace!("Found short arg {raw_argument}");
                         current_arg.set_defined(found)
                     },
                     None => {
-                        warn!("Undefined argument {raw_argument}");
+                        debug!("Undefined short argument {raw_argument}");
                         continue;
                     }
                 }
             }
 
+            // if current arg needs a value but still doesnt have one presume next string is value
             if current_arg.has_value() && current_arg.value.is_none() {
                 searching_value = true;
             }

@@ -2,6 +2,7 @@
 pub mod arguments {
     use std::fmt::Display;
     
+    #[derive(Clone)]
     pub struct ParsedArgument {
         _defined_argument: Option<RawArgument>,
         pub value: Option<String>,
@@ -24,6 +25,11 @@ pub mod arguments {
                 Some(arg) => arg.has_value,
                 None => false,
             }
+        }
+
+        pub fn clear(&mut self) {
+            self._defined_argument = None;
+            self.value = None;
         }
     }
 
