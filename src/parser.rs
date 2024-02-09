@@ -1,4 +1,4 @@
-use log::warn;
+use log::{trace, warn};
 
 use crate::arguments::arguments::{ParsedArgument, RawArgument};
 
@@ -60,7 +60,10 @@ impl Parser {
             // long
             if raw_argument.starts_with("--") {
                 match self.find_by_long(&raw_argument) {
-                    Some(found) => current_arg.set_defined(found),
+                    Some(found) => {
+                        trace!("Found long arg {found}");
+                        current_arg.set_defined(found)
+                    },
                     None => {
                         warn!("Undefined argument {raw_argument}");
                         continue;
@@ -70,7 +73,10 @@ impl Parser {
             // short
             if raw_argument.starts_with("-") {
                 match self.find_by_short(&raw_argument) {
-                    Some(found) => current_arg.set_defined(found),
+                    Some(found) => {
+                        trace!("Found long arg {found}");
+                        current_arg.set_defined(found)
+                    },
                     None => {
                         warn!("Undefined argument {raw_argument}");
                         continue;
