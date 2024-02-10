@@ -27,20 +27,21 @@ impl Parser {
     /// parser.add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
     /// ```
     pub fn add_arg(
-        &mut self,
+        mut self,
         short: &str,
         long: &str,
         description: &str,
         has_value: bool,
         default: Option<String>,
-    ) {
+    ) -> Self {
         self._defined_arguments.push(RawArgument::new(
             short,
             long,
             description,
             has_value,
             default,
-        ))
+        ));
+        self
     }
 
     /// Parses the supplied cli Arguments and tries matching them with the predefined Arguments
