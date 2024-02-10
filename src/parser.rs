@@ -52,7 +52,7 @@ impl Parser {
     /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
     /// parser.parse();
     /// ```
-    pub fn parse(mut self) -> Result<(), ParserError> {
+    pub fn parse(&mut self) -> Result<(), ParserError> {
         let system_arguments = std::env::args().collect::<Vec<String>>();
         let mut idx = 1;
 
