@@ -4,7 +4,7 @@ use log::trace;
 
 use crate::arguments::{ParsedArgument, RawArgument};
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct Parser {
     _defined_arguments: Vec<RawArgument>,
     _parsed_arguments: Vec<ParsedArgument>,
@@ -51,6 +51,7 @@ impl Parser {
     ///
     /// let mut parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
     /// parser.parse();
+    /// let arguments = parser.get_arguments();
     /// ```
     pub fn parse(&mut self) -> Result<(), ParserError> {
         let system_arguments = std::env::args().collect::<Vec<String>>();
