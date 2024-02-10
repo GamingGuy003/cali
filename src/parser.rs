@@ -66,8 +66,8 @@ impl Parser {
             // if no other steps are necessary add to parsed and start with next argument
             if !current_parsed_argument.has_value() {
                 trace!(
-                    "Pushing without value {:#?}",
-                    current_parsed_argument.defined_argument
+                    "Pushing without value {}",
+                    current_system_argument
                 );
                 self._parsed_arguments.push(current_parsed_argument);
                 continue;
@@ -76,8 +76,9 @@ impl Parser {
             // if there is another argument, it will be used as value
             if let Some(next_value) = system_arguments.get(idx) {
                 trace!(
-                    "Pushing with value {:#?}",
-                    current_parsed_argument.defined_argument
+                    "Pushing with value {}: {}",
+                    current_system_argument,
+                    next_value
                 );
                 current_parsed_argument.value = Some(next_value.clone());
                 self._parsed_arguments.push(current_parsed_argument);
@@ -140,26 +141,24 @@ impl Parser {
             .cloned()
     }
 
-    /// Prints the help prompt
+    /// Returns the defined Arguments for printing help prompts or the likes
     /// ```rust
     /// use cali::parser::Parser;
     ///
     /// let mut parser = Parser::new();
     /// parser.add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
-    /// parser.help();
+    /// let arguments = parser.get_arguments();
+    /// 
+    /// for argument in arguments {
+    ///     println!("{argument}");
+    /// }
     /// ```
-    pub fn help(&self) {
-        for defined_argument in &self._defined_arguments {
-            println!("{defined_argument}");
-        }
+    pub fn get_arguments(&self) -> Vec<RawArgument> {
+        self._defined_arguments.clone()
     }
 
     /// Returns either false, if argument has not been found, or true with the optional value of the argument
     pub fn get_parsed_argument_long(&self, long: &str) -> (bool, Option<String>) {
-        trace!(
-            "Trying to fetch long arg; Parsed: {:#?}",
-            self._parsed_arguments
-        );
         let parsed_argument = self._parsed_arguments.iter().find(|parsed_argument| {
             parsed_argument
                 .defined_argument
