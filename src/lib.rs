@@ -8,7 +8,7 @@ mod tests {
 
     #[test]
     fn run() {
-        let mut parser = Parser::new();
+        let parser = Parser::new();
         assert!(parser.parse().is_ok());
     }
 }
