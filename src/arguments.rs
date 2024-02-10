@@ -29,9 +29,9 @@ impl ParsedArgument {
 
 #[derive(Clone, Default, Debug)]
 pub struct RawArgument {
-    short: String,
-    long: String,
-    description: String,
+    pub short: String,
+    pub long: String,
+    pub description: String,
     pub has_value: bool,
     _default: Option<String>,
 }
