@@ -44,6 +44,14 @@ impl ParsedArgument {
             .and_then(|argument| Some(argument.short_matches(short)))
             .unwrap_or(false)
     }
+
+    /// Returns the default value for the Argument
+    pub fn get_default(&self) -> Option<String> {
+        self.defined_argument
+            .clone()
+            .unwrap_or_default()
+            .get_default()
+    }
 }
 
 #[derive(Clone, Default, Debug)]
