@@ -33,6 +33,7 @@ impl Parser {
         long: &str,
         description: &str,
         has_value: bool,
+        is_optional: bool,
         default: Option<String>,
     ) -> Self {
         self._defined_arguments.push(RawArgument::new(
@@ -40,6 +41,7 @@ impl Parser {
             long,
             description,
             has_value,
+            is_optional,
             default,
         ));
         self
@@ -72,17 +74,25 @@ impl Parser {
                 continue;
             }
 
-            // if there is another argument, it will be used as value
-            if let Some(next_value) = system_arguments.get(idx) {
-                trace!(
-                    "Pushing with value {}: {}",
-                    current_system_argument,
-                    next_value
-                );
-                current_parsed_argument.value = Some(next_value.clone());
+            if let Some(next_value) = system_arguments.get(idx) {   // if there is another argument
+                if !next_value.starts_with("-") && !next_value.starts_with("--") {  // if the next value is not a command, we push
+                    trace!(
+                        "Pushing with value {}: {}",
+                        current_system_argument,
+                        next_value
+                    );
+                    current_parsed_argument.value = Some(next_value.clone());
+                } else if current_parsed_argument.clone().is_optional() {           // if current value is optional but next element is an arg, we push with no value
+                    trace!("Pushing with optional value omitted {}", current_system_argument);
+                }
                 self._parsed_arguments.push(current_parsed_argument);
                 idx += 1;
             } else {
+                if current_parsed_argument.is_optional() {                          // if no further arguments are supplied but value is optional we push with no value
+                    self._parsed_arguments.push(current_parsed_argument);
+                    idx += 1;
+                    continue;
+                }
                 return Err(ParserError::new(&format!(
                     "Did not provide a value for {current_system_argument}"
                 )));

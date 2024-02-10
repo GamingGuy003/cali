@@ -52,6 +52,14 @@ impl ParsedArgument {
             .unwrap_or_default()
             .get_default()
     }
+
+    /// Returns true if the arguments value is optional, otherwise false
+    pub fn is_optional(&self) -> bool {
+        self.defined_argument
+            .clone()
+            .unwrap_or_default()
+            .is_optional
+    }
 }
 
 #[derive(Clone, Default, Debug)]
@@ -60,6 +68,7 @@ pub struct RawArgument {
     pub long: String,
     pub description: String,
     pub has_value: bool,
+    pub is_optional: bool,
     _default: Option<String>,
 }
 
@@ -69,6 +78,7 @@ impl RawArgument {
         long: &str,
         description: &str,
         has_value: bool,
+        is_optional: bool,
         _default: Option<String>,
     ) -> RawArgument {
         Self {
@@ -76,6 +86,7 @@ impl RawArgument {
             long: long.to_owned(),
             description: description.to_owned(),
             has_value,
+            is_optional,
             _default,
         }
     }
