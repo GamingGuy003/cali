@@ -23,8 +23,9 @@ impl Parser {
     /// ```rust
     /// use cali::parser::Parser;
     ///
-    /// let mut parser = Parser::new();
-    /// parser.add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
+    /// let parser = Parser::new()
+    ///     .add_arg("h", "help", "Prints this help prompt", false, None)
+    ///     .add_arg("t", "test", "None", true, Some("test_string".to_owned()));
     /// ```
     pub fn add_arg(
         mut self,
@@ -48,8 +49,7 @@ impl Parser {
     /// ```rust
     /// use cali::parser::Parser;
     ///
-    /// let mut parser = Parser::new();
-    /// parser.add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
+    /// let mut parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
     /// parser.parse();
     /// ```
     pub fn parse(&mut self) -> Result<(), ParserError> {
@@ -146,8 +146,7 @@ impl Parser {
     /// ```rust
     /// use cali::parser::Parser;
     ///
-    /// let mut parser = Parser::new();
-    /// parser.add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
+    /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
     /// let arguments = parser.get_arguments();
     /// 
     /// for argument in arguments {
