@@ -7,6 +7,7 @@ pub struct ParsedArgument {
 }
 
 impl ParsedArgument {
+    /// Creates a new Argument from a Raw Argument and an optional value
     pub fn new(defined_argument: Option<RawArgument>, value: Option<String>) -> Self {
         Self {
             defined_argument,
@@ -14,6 +15,7 @@ impl ParsedArgument {
         }
     }
 
+    /// Returns true if the Argument is supposed to get a value
     pub fn has_value(&self) -> bool {
         match &self.defined_argument {
             Some(arg) => arg.has_value,
@@ -21,9 +23,26 @@ impl ParsedArgument {
         }
     }
 
+    /// Clears the Arguments fields and sets them to none
     pub fn clear(&mut self) {
         self.defined_argument = None;
         self.value = None;
+    }
+
+    /// Returns true if the argument matches, or false if not matching or not present. Leading minus' are ignored
+    pub fn long_matches(&self, long: String) -> bool {
+        self.defined_argument
+            .clone()
+            .and_then(|argument| Some(argument.long_matches(long)))
+            .unwrap_or(false)
+    }
+
+    /// Returns true if the argument matches, or false if not matching or not present. Leading minus' are ignored
+    pub fn short_matches(&self, short: String) -> bool {
+        self.defined_argument
+            .clone()
+            .and_then(|argument| Some(argument.short_matches(short)))
+            .unwrap_or(false)
     }
 }
 
@@ -53,12 +72,19 @@ impl RawArgument {
         }
     }
 
+    /// Returns true if the argument matches, or false if not. Leading minus' are ignored
     pub fn long_matches(&self, long: String) -> bool {
         long.trim_start_matches("--") == self.long
     }
 
+    /// Returns true if the argument matches, or false if not. Leading minus' are ignored
     pub fn short_matches(&self, short: String) -> bool {
         short.trim_start_matches('-') == self.short
+    }
+
+    /// Returns the default value for the argument
+    pub fn get_default(&self) -> Option<String> {
+        self._default.clone()
     }
 }
 

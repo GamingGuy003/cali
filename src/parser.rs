@@ -67,10 +67,7 @@ impl Parser {
             idx += 1;
             // if no other steps are necessary add to parsed and start with next argument
             if !current_parsed_argument.has_value() {
-                trace!(
-                    "Pushing without value {}",
-                    current_system_argument
-                );
+                trace!("Pushing without value {}", current_system_argument);
                 self._parsed_arguments.push(current_parsed_argument);
                 continue;
             }
@@ -101,31 +98,25 @@ impl Parser {
                     trace!("Found long arg {s}");
                     Ok(ParsedArgument::new(Some(found), None))
                 }
-                None => {
-                    Err(ParserError::new(&format!(
-                        "{} is not a valid Argument!",
-                        string
-                    )))
-                }
+                None => Err(ParserError::new(&format!(
+                    "{} is not a valid Argument!",
+                    string
+                ))),
             },
             s if s.starts_with('-') => match self.find_predefined_by_short(s) {
                 Some(found) => {
                     trace!("Found short arg {s}");
                     Ok(ParsedArgument::new(Some(found), None))
                 }
-                None => {
-                    Err(ParserError::new(&format!(
-                        "{} is not a valid Argument!",
-                        string
-                    )))
-                }
-            },
-            _ => {
-                Err(ParserError::new(&format!(
+                None => Err(ParserError::new(&format!(
                     "{} is not a valid Argument!",
                     string
-                )))
-            }
+                ))),
+            },
+            _ => Err(ParserError::new(&format!(
+                "{} is not a valid Argument!",
+                string
+            ))),
         }
     }
 
@@ -149,13 +140,24 @@ impl Parser {
     ///
     /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
     /// let arguments = parser.get_arguments();
-    /// 
+    ///
     /// for argument in arguments {
     ///     println!("{argument}");
     /// }
     /// ```
     pub fn get_arguments(&self) -> Vec<RawArgument> {
         self._defined_arguments.clone()
+    }
+
+    /// Returns the parsed arguments for iterating over them etc
+    /// ```rust
+    /// use cali::parser::Parser;
+    ///
+    /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
+    /// let arguments = parser.get_parsed_arguments();
+    /// ```
+    pub fn get_parsed_arguments(&self) -> Vec<ParsedArgument> {
+        self._parsed_arguments.clone()
     }
 
     /// Returns either false, if argument has not been found, or true with the optional value of the argument
