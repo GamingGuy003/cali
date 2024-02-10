@@ -49,7 +49,7 @@ impl Parser {
     /// ```rust
     /// use cali::parser::Parser;
     ///
-    /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
+    /// let mut parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
     /// parser.parse();
     /// ```
     pub fn parse(&mut self) -> Result<(), ParserError> {
