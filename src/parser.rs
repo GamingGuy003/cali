@@ -82,15 +82,14 @@ impl Parser {
                         next_value
                     );
                     current_parsed_argument.value = Some(next_value.clone());
+                    idx += 1;
                 } else if current_parsed_argument.clone().is_optional() {           // if current value is optional but next element is an arg, we push with no value
                     trace!("Pushing with optional value omitted {}", current_system_argument);
                 }
                 self._parsed_arguments.push(current_parsed_argument);
-                idx += 1;
             } else {
                 if current_parsed_argument.is_optional() {                          // if no further arguments are supplied but value is optional we push with no value
                     self._parsed_arguments.push(current_parsed_argument);
-                    idx += 1;
                     continue;
                 }
                 return Err(ParserError::new(&format!(
