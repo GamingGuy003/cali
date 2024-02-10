@@ -67,13 +67,13 @@ impl Display for RawArgument {
         if self.has_value {
             write!(
                 f,
-                "-{} \t --{} <value> \t \t {}",
+                "-{} \t --{} <value> \t {}",
                 self.short, self.long, self.description
             )
         } else {
             write!(
                 f,
-                "-{} \t --{} \t {}",
+                "-{} \t --{} \t \t {}",
                 self.short, self.long, self.description
             )
         }
