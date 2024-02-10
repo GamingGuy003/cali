@@ -50,7 +50,7 @@ impl Parser {
     /// use cali::parser::Parser;
     ///
     /// let mut parser = Parser::new().add_arg("t", "test", "A test Argument", true, Some("test_value".to_owned()));
-    /// parser.parse();
+    /// parser.parse().unwrap();
     /// let arguments = parser.get_arguments();
     /// ```
     pub fn parse(&mut self) -> Result<(), ParserError> {
