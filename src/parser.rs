@@ -33,16 +33,14 @@ impl Parser {
         long: &str,
         description: &str,
         has_value: bool,
-        is_optional: bool,
-        default: Option<String>,
+        is_optional: bool
     ) -> Self {
         self._defined_arguments.push(RawArgument::new(
             short,
             long,
             description,
             has_value,
-            is_optional,
-            default,
+            is_optional
         ));
         self
     }

@@ -45,22 +45,6 @@ impl ParsedArgument {
             .unwrap_or(false)
     }
 
-    /// Returns the default value for the Argument
-    pub fn get_default(&self) -> Option<String> {
-        self.defined_argument
-            .clone()
-            .unwrap_or_default()
-            .get_default()
-    }
-
-    /// Returns the passed value, default, or None
-    pub fn get_value_or_default(&self) -> Option<String> {
-        match &self.value {
-            Some(value) => Some(value.clone()),
-            None => self.get_default()
-        }
-    }
-
     /// Returns true if the arguments value is optional, otherwise false
     pub fn is_optional(&self) -> bool {
         self.defined_argument
@@ -76,8 +60,7 @@ pub struct RawArgument {
     pub long: String,
     pub description: String,
     pub has_value: bool,
-    pub is_optional: bool,
-    _default: Option<String>,
+    pub is_optional: bool
 }
 
 impl RawArgument {
@@ -86,16 +69,14 @@ impl RawArgument {
         long: &str,
         description: &str,
         has_value: bool,
-        is_optional: bool,
-        _default: Option<String>,
+        is_optional: bool
     ) -> RawArgument {
         Self {
             short: short.to_owned(),
             long: long.to_owned(),
             description: description.to_owned(),
             has_value,
-            is_optional,
-            _default,
+            is_optional
         }
     }
 
@@ -107,11 +88,6 @@ impl RawArgument {
     /// Returns true if the argument matches, or false if not. Leading minus' are ignored
     pub fn short_matches(&self, short: String) -> bool {
         short.trim_start_matches('-') == self.short
-    }
-
-    /// Returns the default value for the argument
-    pub fn get_default(&self) -> Option<String> {
-        self._default.clone()
     }
 }
 
