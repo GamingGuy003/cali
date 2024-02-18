@@ -73,7 +73,7 @@ impl Parser {
             }
 
             if let Some(next_value) = system_arguments.get(idx) {   // if there is another argument
-                if !next_value.starts_with("-") && !next_value.starts_with("--") {  // if the next value is not a command, we push
+                if !next_value.starts_with('-') && !next_value.starts_with("--") {  // if the next value is not a command, we push
                     trace!(
                         "Pushing with value {}: {}",
                         current_system_argument,

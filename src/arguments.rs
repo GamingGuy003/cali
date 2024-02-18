@@ -32,16 +32,14 @@ impl ParsedArgument {
     /// Returns true if the argument matches, or false if not matching or not present. Leading minus' are ignored
     pub fn long_matches(&self, long: &str) -> bool {
         self.defined_argument
-            .clone()
-            .and_then(|argument| Some(argument.long_matches(long)))
+            .clone().map(|argument| argument.long_matches(long))
             .unwrap_or(false)
     }
 
     /// Returns true if the argument matches, or false if not matching or not present. Leading minus' are ignored
     pub fn short_matches(&self, short: &str) -> bool {
         self.defined_argument
-            .clone()
-            .and_then(|argument| Some(argument.short_matches(short)))
+            .clone().map(|argument| argument.short_matches(short))
             .unwrap_or(false)
     }
 
