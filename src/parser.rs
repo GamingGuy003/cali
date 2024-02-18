@@ -24,8 +24,8 @@ impl Parser {
     /// use cali::parser::Parser;
     ///
     /// let parser = Parser::new()
-    ///     .add_arg("h", "help", "Prints this help prompt", false, false, None)
-    ///     .add_arg("t", "test", "None", true, false, Some("test_string".to_owned()));
+    ///     .add_arg("h", "help", "Prints this help prompt", false, false)
+    ///     .add_arg("t", "test", "None", true, false);
     /// ```
     pub fn add_arg(
         mut self,
@@ -49,7 +49,7 @@ impl Parser {
     /// ```rust
     /// use cali::parser::Parser;
     ///
-    /// let mut parser = Parser::new().add_arg("t", "test", "A test Argument", true, false, Some("test_value".to_owned()));
+    /// let mut parser = Parser::new().add_arg("t", "test", "A test Argument", true, false);
     /// parser.parse().unwrap();
     /// let arguments = parser.get_arguments();
     /// ```
@@ -145,7 +145,7 @@ impl Parser {
     /// ```rust
     /// use cali::parser::Parser;
     ///
-    /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, false, Some("test_value".to_owned()));
+    /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, false);
     /// let arguments = parser.get_arguments();
     ///
     /// for argument in arguments {
@@ -160,7 +160,7 @@ impl Parser {
     /// ```rust
     /// use cali::parser::Parser;
     ///
-    /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, false, Some("test_value".to_owned()));
+    /// let parser = Parser::new().add_arg("t", "test", "A test Argument", true, false);
     /// let arguments = parser.get_parsed_arguments();
     /// ```
     pub fn get_parsed_arguments(&self) -> Vec<ParsedArgument> {
