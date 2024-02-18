@@ -30,7 +30,7 @@ impl ParsedArgument {
     }
 
     /// Returns true if the argument matches, or false if not matching or not present. Leading minus' are ignored
-    pub fn long_matches(&self, long: String) -> bool {
+    pub fn long_matches(&self, long: &str) -> bool {
         self.defined_argument
             .clone()
             .and_then(|argument| Some(argument.long_matches(long)))
@@ -38,7 +38,7 @@ impl ParsedArgument {
     }
 
     /// Returns true if the argument matches, or false if not matching or not present. Leading minus' are ignored
-    pub fn short_matches(&self, short: String) -> bool {
+    pub fn short_matches(&self, short: &str) -> bool {
         self.defined_argument
             .clone()
             .and_then(|argument| Some(argument.short_matches(short)))
@@ -81,12 +81,12 @@ impl RawArgument {
     }
 
     /// Returns true if the argument matches, or false if not. Leading minus' are ignored
-    pub fn long_matches(&self, long: String) -> bool {
+    pub fn long_matches(&self, long: &str) -> bool {
         long.trim_start_matches("--") == self.long
     }
 
     /// Returns true if the argument matches, or false if not. Leading minus' are ignored
-    pub fn short_matches(&self, short: String) -> bool {
+    pub fn short_matches(&self, short: &str) -> bool {
         short.trim_start_matches('-') == self.short
     }
 }

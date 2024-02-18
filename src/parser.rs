@@ -130,14 +130,14 @@ impl Parser {
     fn find_predefined_by_short(&self, short: &str) -> Option<RawArgument> {
         self._defined_arguments
             .iter()
-            .find(|raw_argument| raw_argument.short_matches(short.to_owned()))
+            .find(|raw_argument| raw_argument.short_matches(short))
             .cloned()
     }
 
     fn find_predefined_by_long(&self, long: &str) -> Option<RawArgument> {
         self._defined_arguments
             .iter()
-            .find(|raw_argument| raw_argument.long_matches(long.to_owned()))
+            .find(|raw_argument| raw_argument.long_matches(long))
             .cloned()
     }
 
@@ -174,7 +174,7 @@ impl Parser {
                 .defined_argument
                 .clone()
                 .unwrap_or_default()
-                .long_matches(long.to_owned())
+                .long_matches(long)
         }).cloned()
     }
 
@@ -185,7 +185,7 @@ impl Parser {
                 .defined_argument
                 .clone()
                 .unwrap_or_default()
-                .short_matches(short.to_owned())
+                .short_matches(short)
         }).cloned()
     }
 }
