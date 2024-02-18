@@ -53,6 +53,14 @@ impl ParsedArgument {
             .get_default()
     }
 
+    /// Returns the passed value, default, or None
+    pub fn get_value_or_default(&self) -> Option<String> {
+        match &self.value {
+            Some(value) => Some(value.clone()),
+            None => self.get_default()
+        }
+    }
+
     /// Returns true if the arguments value is optional, otherwise false
     pub fn is_optional(&self) -> bool {
         self.defined_argument
