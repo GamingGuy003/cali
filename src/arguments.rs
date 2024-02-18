@@ -93,18 +93,12 @@ impl RawArgument {
 
 impl Display for RawArgument {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        if self.has_value {
-            write!(
-                f,
-                "-{} \t --{} <value> \t {}",
-                self.short, self.long, self.description
-            )
-        } else {
-            write!(
-                f,
-                "-{} \t --{} \t \t {}",
-                self.short, self.long, self.description
-            )
-        }
+        let short = format!("-{:<5}", self.short);
+        let long = format!("--{:<15}", self.long);
+        let spacer = self
+            .has_value
+            .then(|| format!("{:<15}", "<value>"))
+            .unwrap_or(format!("{:<15}", ""));
+        write!(f, "{} {} {} {}", short, long, spacer, self.description)
     }
 }
