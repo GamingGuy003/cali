@@ -170,32 +170,24 @@ impl Parser {
     }
 
     /// Returns either false, if argument has not been found, or true with the optional value of the argument
-    pub fn get_parsed_argument_long(&self, long: &str) -> (bool, Option<String>) {
-        let parsed_argument = self._parsed_arguments.iter().find(|parsed_argument| {
+    pub fn get_parsed_argument_long(&self, long: &str) -> Option<ParsedArgument> {
+        self._parsed_arguments.iter().find(|parsed_argument| {
             parsed_argument
                 .defined_argument
                 .clone()
                 .unwrap_or_default()
                 .long_matches(long.to_owned())
-        });
-        match parsed_argument {
-            Some(parsed_argument) => (true, parsed_argument.value.clone()),
-            None => (false, None),
-        }
+        }).cloned()
     }
 
     /// Returns either false, if argument has not been found, or true with the optional value of the argument
-    pub fn get_parsed_argument_short(&self, short: &str) -> (bool, Option<String>) {
-        let parsed_argument = self._parsed_arguments.iter().find(|parsed_argument| {
+    pub fn get_parsed_argument_short(&self, short: &str) -> Option<ParsedArgument> {
+        self._parsed_arguments.iter().find(|parsed_argument| {
             parsed_argument
                 .defined_argument
                 .clone()
                 .unwrap_or_default()
                 .short_matches(short.to_owned())
-        });
-        match parsed_argument {
-            Some(parsed_argument) => (true, parsed_argument.value.clone()),
-            None => (false, None),
-        }
+        }).cloned()
     }
 }
